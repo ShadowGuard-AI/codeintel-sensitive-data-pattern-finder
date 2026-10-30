@@ -1,3 +1,5 @@
+![Banner](banner.png)
+
 # codeintel-Sensitive-Data-Pattern-Finder
 Scans codebase for patterns resembling sensitive data (e.g., credit card numbers, social security numbers, API keys) using regular expressions and configurable pattern lists. Reports potential leaks and flags high-risk areas. - Focused on Tools for static code analysis, vulnerability scanning, and code quality assurance
 

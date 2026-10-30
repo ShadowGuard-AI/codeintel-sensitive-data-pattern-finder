@@ -1,4 +1,3 @@
-bandit>=1.0.0
-flake8>=1.0.0
-pylint>=1.0.0
-pyre-check>=1.0.0
+# Standard library only (argparse, json, logging, os, re, sys).
+# The scanner packages listed here in earlier versions are never
+# imported or run by this finder.

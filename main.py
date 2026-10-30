@@ -1,4 +1,5 @@
 import argparse
+import json
 import re
 import os
 import logging
@@ -74,8 +75,6 @@ def load_custom_patterns(pattern_file):
         dict: A dictionary of patterns, or None if an error occurs.
     """
     try:
-        import json
-
         with open(pattern_file, "r") as f:
             patterns = json.load(f)
         return patterns
@@ -187,20 +186,24 @@ def main():
     patterns = DEFAULT_PATTERNS
     if args.patterns:
         custom_patterns = load_custom_patterns(args.patterns)
-        if custom_patterns:
-            patterns = {**patterns, **custom_patterns}  # Merge custom patterns
+        if custom_patterns is None:
+            # The caller asked for specific patterns. Silently falling
+            # back to the defaults, as before, reports a scan that was
+            # never the scan requested.
+            sys.exit(1)
+        patterns = {**patterns, **custom_patterns}  # Merge custom patterns
 
     # Handle excluded paths
     excluded_paths = (
         [path.strip() for path in args.exclude.split(",")] if args.exclude else []
     )
-    # Input validation. Prevents directory traversal and shell injection
-    for path in args.path:
-        if ".." in path:
-            logging.error("Invalid input: Path contains '..' (potential directory traversal)")
-            sys.exit(1)
 
-    # Start scanning
+    # No ".." check: this program only reads the paths it is given,
+    # and a parent relative path is the normal way to point it at a
+    # sibling project. The old check rejected those legitimate scans
+    # (and any file with ".." in its name) without protecting
+    # anything, since nothing here writes or executes by path.
+    missing = False
     for path in args.path:
         if os.path.isfile(path):
             scan_file(path, patterns, excluded_paths, args.output)
@@ -208,6 +211,9 @@ def main():
             scan_directory(path, patterns, args.recursive, excluded_paths, args.output)
         else:
             logging.error(f"Path not found: {path}")
+            missing = True
+    if missing:
+        sys.exit(1)
 
 
 if __name__ == "__main__":

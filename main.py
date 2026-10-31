@@ -59,7 +59,7 @@ def setup_argparse():
     parser.add_argument(
         "-o",
         "--output",
-        help="Path to output file (defaults to stdout)",
+        help="Path to output file (defaults to stdout). The file is replaced at the start of each run, so it holds only that run's results.",
     )
     return parser
 
@@ -99,25 +99,28 @@ def scan_file(filepath, patterns, excluded_paths=None, output_file=None):
         excluded_paths (list, optional): List of paths to exclude. Defaults to None.
 
     Returns:
-        None
+        bool: False when the file could not be read or a pattern
+        failed to compile, True otherwise. Matches that were found
+        are still reported before the caller acts on the failure.
     """
 
     if excluded_paths and any(
         filepath.startswith(path) or filepath.endswith(path) for path in excluded_paths
     ):
         logging.debug(f"Skipping excluded file: {filepath}")
-        return
+        return True
 
     try:
         with open(filepath, "r", encoding="utf-8") as f:
             content = f.read()
     except FileNotFoundError:
         logging.error(f"File not found: {filepath}")
-        return
+        return False
     except Exception as e:
         logging.error(f"Error reading file {filepath}: {e}")
-        return
+        return False
 
+    ok = True
     for name, pattern in patterns.items():
         try:
             matches = re.finditer(pattern, content, re.MULTILINE)  # MULTILINE flag
@@ -136,6 +139,8 @@ def scan_file(filepath, patterns, excluded_paths=None, output_file=None):
                 )
         except re.error as e:
             logging.error(f"Invalid regex pattern {name}: {e}")
+            ok = False
+    return ok
 
 
 def scan_directory(dirpath, patterns, recursive=False, excluded_paths=None, output_file=None):
@@ -149,13 +154,15 @@ def scan_directory(dirpath, patterns, recursive=False, excluded_paths=None, outp
         excluded_paths (list, optional): List of paths to exclude. Defaults to None.
 
     Returns:
-        None
+        bool: False when any file in the directory could not be
+        scanned cleanly, True otherwise.
     """
 
     if excluded_paths and any(dirpath.startswith(path) for path in excluded_paths):
         logging.debug(f"Skipping excluded directory: {dirpath}")
-        return
+        return True
 
+    ok = True
     try:
         for root, _, files in os.walk(dirpath):
             if excluded_paths and any(root.startswith(path) for path in excluded_paths):
@@ -164,12 +171,15 @@ def scan_directory(dirpath, patterns, recursive=False, excluded_paths=None, outp
 
             for file in files:
                 filepath = os.path.join(root, file)
-                scan_file(filepath, patterns, excluded_paths, output_file)
+                if not scan_file(filepath, patterns, excluded_paths, output_file):
+                    ok = False
 
             if not recursive:
                 break  # Stop after scanning the top-level directory
     except Exception as e:
         logging.error(f"Error scanning directory {dirpath}: {e}")
+        ok = False
+    return ok
 
 
 def main():
@@ -203,16 +213,32 @@ def main():
     # sibling project. The old check rejected those legitimate scans
     # (and any file with ".." in its name) without protecting
     # anything, since nothing here writes or executes by path.
+    # The output file is opened once here, in write mode, before
+    # scanning. Each match below appends to it, so without this step
+    # the file accumulated every earlier run as well and values an
+    # operator had already removed from the code stayed in the file
+    # reading as current results.
+    if args.output:
+        try:
+            with open(args.output, "w"):
+                pass
+        except Exception as e:
+            logging.error(f"Error writing to output file: {e}")
+            sys.exit(1)
+
     missing = False
+    failed = False
     for path in args.path:
         if os.path.isfile(path):
-            scan_file(path, patterns, excluded_paths, args.output)
+            if not scan_file(path, patterns, excluded_paths, args.output):
+                failed = True
         elif os.path.isdir(path):
-            scan_directory(path, patterns, args.recursive, excluded_paths, args.output)
+            if not scan_directory(path, patterns, args.recursive, excluded_paths, args.output):
+                failed = True
         else:
             logging.error(f"Path not found: {path}")
             missing = True
-    if missing:
+    if missing or failed:
         sys.exit(1)
 
 

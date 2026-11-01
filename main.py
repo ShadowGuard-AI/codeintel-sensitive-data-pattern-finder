@@ -132,6 +132,9 @@ def scan_file(filepath, patterns, excluded_paths=None, output_file=None):
                     except Exception as e:
                         logging.error(f"Error writing to output file: {e}")
                 else:
+                     # I print the matched text itself, not a mask. For this tool
+                     # the match is the evidence a reviewer needs, and it means the
+                     # console and any output file hold the sensitive value in clear.
                      print(f"File: {filepath}, Pattern: {name}, Match: {match.group(0)}")
 
                 logging.warning(
@@ -175,6 +178,9 @@ def scan_directory(dirpath, patterns, recursive=False, excluded_paths=None, outp
                     ok = False
 
             if not recursive:
+                # I lean on os.walk yielding the top level first and break
+                # after it. That ordering is what walk does, but it means the
+                # flag is load bearing: without the break this would recurse.
                 break  # Stop after scanning the top-level directory
     except Exception as e:
         logging.error(f"Error scanning directory {dirpath}: {e}")
@@ -201,6 +207,9 @@ def main():
             # back to the defaults, as before, reports a scan that was
             # never the scan requested.
             sys.exit(1)
+        # I merge over the defaults, so a custom pattern with the same
+        # name as a default replaces it, and one with a new name is
+        # added beside them. There is no way to drop a default pattern.
         patterns = {**patterns, **custom_patterns}  # Merge custom patterns
 
     # Handle excluded paths

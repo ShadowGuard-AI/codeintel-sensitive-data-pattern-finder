@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 340" role="img" aria-label="Halo sky in three bands: the ring brightens and fades once per cycle, a vane swings a small arc, a wind sock lifts and sags, frost thickens on the fence wire">
+<rect width="1200" height="255" fill="#141a33"/>
+<g stroke="#5a6896" stroke-width="2"><line x1="60" y1="60" x2="230" y2="58"/><line x1="300" y1="96" x2="470" y2="94"/><line x1="90" y1="140" x2="240" y2="139"/></g>
+<g>
+<animate attributeName="opacity" values="0.45;1;0.45" dur="16s" repeatCount="indefinite"/>
+<circle cx="1010" cy="130" r="118" fill="none" stroke="#e05fa0" stroke-width="2"/>
+<circle cx="1010" cy="130" r="112" fill="none" stroke="#7fe0b2" stroke-width="3"/>
+<circle cx="1010" cy="130" r="107" fill="none" stroke="#cddcf0" stroke-width="2"/>
+<ellipse cx="1010" cy="130" rx="26" ry="9" fill="#f4f7ff"/>
+<ellipse cx="898" cy="130" rx="34" ry="8" fill="#6e84c8"/>
+<ellipse cx="898" cy="130" rx="20" ry="5" fill="#f4f7ff"/>
+<ellipse cx="1122" cy="130" rx="24" ry="6" fill="#6e84c8" opacity="0.75"/>
+<ellipse cx="1122" cy="130" rx="13" ry="4" fill="#f4f7ff" opacity="0.75"/>
+</g>
+<rect y="255" width="1200" height="85" fill="#d6e0f0"/>
+<line x1="0" y1="272" x2="1200" y2="272" stroke="#7884a4" stroke-width="2"/>
+<g stroke="#f4f7ff" stroke-width="3"><line x1="0" y1="272" x2="1200" y2="272" opacity="0.25">
+<animate attributeName="opacity" values="0.25;0.9;0.25" dur="22s" repeatCount="indefinite"/></line></g>
+<g>
+<line x1="430" y1="255" x2="430" y2="120" stroke="#3c4464" stroke-width="4"/>
+<g>
+<animateTransform attributeName="transform" type="rotate" values="-7 430 128;7 430 128;-7 430 128" dur="11s" repeatCount="indefinite"/>
+<polygon points="408,124 452,121 430,133" fill="#7fe0b2"/>
+<line x1="430" y1="120" x2="430" y2="140" stroke="#f4f7ff" stroke-width="2"/>
+</g>
+</g>
+<g>
+<line x1="640" y1="255" x2="640" y2="110" stroke="#3c4464" stroke-width="4"/>
+<polygon points="640,110 656,114 650,146 642,144" fill="#c8783c">
+<animate attributeName="points" values="640,110 656,114 650,146 642,144;640,110 668,112 664,124 644,120;640,110 656,114 650,146 642,144" dur="11s" repeatCount="indefinite"/></polygon>
+</g>
+<g fill="#5a6484"><rect x="180" y="238" width="16" height="26"/><rect x="216" y="238" width="16" height="26"/><rect x="252" y="238" width="16" height="26"/><rect x="288" y="238" width="16" height="26"/></g>
+<g fill="#f4f7ff"><rect x="178" y="234" width="20" height="5"/><rect x="214" y="234" width="20" height="5"/><rect x="250" y="234" width="20" height="5"/><rect x="286" y="234" width="20" height="5"/></g>
+</svg>

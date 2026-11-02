@@ -1,166 +1,108 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Codeintel Sensitive Data Pattern Finder: what it is, how it runs, where it stops</title>
-<meta name="description" content="Codeintel Sensitive Data Pattern Finder is one of my projects. The README in the repo is short, so this page sticks to what the files themselves show.">
+<title>codeintel-sensitive-data-pattern-finder: a forecast log</title>
 <style>
-:root {
-  --bg: #1a0c0c; --panel: #2a1412; --ink: #f0e6d6;
-  --mut: #381b18;
-  --acc: #c9a24b; --acc2: #94b2c4;
-  --line: #2a1412;
-}
+@font-face { font-family: 'Betania Patmos'; src: url('fonts/BetaniaPatmos.ttf') format('truetype'); }
+@font-face { font-family: 'Barlow'; src: url('fonts/Barlow.ttf') format('truetype'); }
+:root { --indigo:#1b2340; --pale:#e8ecf7; --white:#f4f7ff; --green:#7fe0b2; --magenta:#e04fa0; --ink:#141824; }
 * { box-sizing: border-box; }
-body { margin: 0; background: var(--bg); color: var(--ink);
-  font-family: 'Palatino Linotype', Palatino, serif; line-height: 1.55; }
-code, pre, .mono { font-family: 'Menlo', monospace; }
-a { color: var(--acc2); }
-.hero { padding: 3rem 6vw 1rem; }
-.hero img.banner { width: 100%; height: auto; border: 1px solid var(--line);
-  border-radius: 10px; }
-.logo { width: 92px; height: 92px; border-radius: 18px;
-  border: 1px solid var(--line); }
-h1 { font-size: 2.4rem; margin: 0.4em 0 0.1em; }
-h2 { border-bottom: 2px solid var(--acc); padding-bottom: 0.2em;
-  margin-top: 2em; }
-.lede { font-size: 1.15rem; max-width: 62ch; }
-main { padding: 0 6vw 3rem; max-width: 1180px; margin: 0 auto; }
-.grid { display: grid; gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
-.card { background: var(--panel); border: 1px solid var(--line);
-  border-radius: 12px; padding: 1rem 1.2rem; }
-.card.pop { animation: rise 0.7s ease both; }
-@keyframes rise { from { opacity: 0; transform: translateY(14px); }
-  to { opacity: 1; transform: none; } }
-pre.code { background: #101014; color: #e8e6df; padding: 1rem 1.2rem;
-  border-radius: 12px; overflow-x: auto; font-size: 0.86rem;
-  border-left: 5px solid var(--acc); }
-table { border-collapse: collapse; width: 100%; }
-td, th { border-bottom: 1px solid var(--line); padding: 0.45rem 0.6rem;
-  text-align: left; }
-.shots { display: grid; gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
-.shots img { width: 100%; height: auto; border: 1px solid var(--line);
-  border-radius: 10px; background: #f4f1e8; }
-footer { padding: 2rem 6vw; border-top: 1px solid var(--line);
-  color: var(--mut); }
-.rail { display: flex; gap: 1.2rem; align-items: flex-start; }
-.rail nav { position: sticky; top: 1rem; min-width: 180px; }
-@media (max-width: 760px) { .rail { flex-direction: column; }
-  .rail nav { position: static; } }
-@media (prefers-reduced-motion: reduce) {
-  .card.pop { animation: none; } * { scroll-behavior: auto; } }
+body { margin:0; background:var(--pale); color:var(--ink); font-family:'Barlow',sans-serif; line-height:1.5; }
+header { padding:2.4rem 6vw 0.6rem; background:var(--indigo); color:var(--white); }
+h1, h2 { font-family:'Betania Patmos',serif; }
+header h1 { color:var(--white); font-size:1.9rem; margin:0.4rem 0; }
+h2 { color:var(--indigo); border-top:3px solid var(--green); padding-top:0.5rem; }
+.hero { width:100%; border:2px solid var(--white); }
+.logo { width:150px; float:right; margin:0 0 1rem 1rem; }
+main { padding:0 6vw 2rem; }
+.panel { background:var(--white); border:1px solid var(--indigo); padding:1.1rem 1.3rem; margin:1.2rem 0; }
+.callout { background:#dde4f5; border-left:6px solid var(--indigo); padding:0.7rem 1rem; margin:0.9rem 0; }
+.callout.warn { border-left-color:var(--magenta); }
+.callout h3 { font-family:'Betania Patmos',serif; color:var(--indigo); margin:0 0 0.3rem; font-size:1rem; }
+.fault { color:var(--magenta); font-weight:600; }
+code { background:#d5dcf0; padding:0.05rem 0.3rem; }
+.plate { display:inline-block; background:#cfd9ef; border:1px solid var(--indigo); border-radius:0 0 60px 60px / 0 0 22px 22px; color:var(--indigo); font-family:'Betania Patmos',serif; padding:0.5rem 1.1rem; margin:0.3rem 0.4rem 0.3rem 0; text-decoration:none; }
+.plate:hover { background:var(--white); }
+a { color:var(--indigo); }
+table { border-collapse:collapse; width:100%; }
+td, th { border:1px solid var(--indigo); padding:0.4rem 0.6rem; text-align:left; }
+footer { padding:0 6vw 2.4rem; color:var(--indigo); }
 </style>
 </head>
-<body class="layout-poster">
-<!-- This page exists for codeintel-sensitive-data-pattern-finder alone: the layout (poster),
-     the colors, and the type were picked for this project, not
-     shared with the other project pages. The code block below is
-     copied from the file it names, line for line. If it looks
-     plain, that is because the project is plain, and I would
-     rather the page match the project than dress it up. The one
-     thing I will not do here is oversell: what this project does
-     not do is stated on the page, not hidden from it. -->
-<header class="hero">
-  <img class="logo" src="assets/logo.png" alt="Codeintel Sensitive Data Pattern Finder logo">
-  <img class="banner" src="assets/banner.png" alt="">
-  <h1>Codeintel Sensitive Data Pattern Finder</h1>
-  <p class="mono"><a href="https://github.com/ShadowGuard-AI/codeintel-sensitive-data-pattern-finder">github.com/ShadowGuard-AI/codeintel-sensitive-data-pattern-finder</a></p>
+<body>
+<header>
+<img class="hero" src="assets/intro-banner.png" alt="Snow field, weather hut, fixed rods, a thin halo ring and two bright sundogs, no lettering">
+<img class="logo" src="assets/logo.png" alt="One bright sundog patch on a faint halo arc against polar night indigo, the name below in star white">
+<p>Forecast log. First entry.</p>
+<h1>codeintel-sensitive-data-pattern-finder</h1>
+<p>Light at the margin of the code. A bright pattern early, and judgement left to a person.</p>
+<nav>
+<a class="plate" href="#run">Scan These Paths</a>
+<a class="plate" href="#settings">Load a Pattern File</a>
+<a class="plate" href="#settings">List Exclusions</a>
+<a class="plate" href="#settings">Write to File</a>
+</nav>
+<img class="hero" src="assets/banner.png" alt="Icy morning: halo ring between two sundogs, snow field, weather station fence, and the title once on the weather hut board">
 </header>
-
 <main>
-  <section class="rail">
-    <nav aria-label="on this page">
-      <p class="mono"><a href="#run">Run it</a><br>
-      <a href="#files">The files</a><br>
-      <a href="#sheets">The sheets</a><br>
-      <a href="https://github.com/ShadowGuard-AI/codeintel-sensitive-data-pattern-finder">The repo</a></p>
-    </nav>
-    <div>
-      <p class="lede">Codeintel Sensitive Data Pattern Finder is one of my projects. The README in the repo is short, so this page sticks to what the files themselves show.</p>
-      <div class="grid">
-        <div class="card pop"><h3>What it is</h3>
-          <p>Codeintel Sensitive Data Pattern Finder: 5 files, 251 counted
-          lines across Python 227, Markdown 21, Text 3. One job, done in the
-          open, in files you can read.</p></div>
-        <div class="card pop"><h3>The biggest piece</h3>
-          <p><code>main.py</code> carries the most
-          lines. If the project grows, that file is where the growth
-          lands first, for better or worse.</p></div>
-        <div class="card pop"><h3>The honest gap</h3>
-          <p>No test files yet. That is the honest gap, and the roadmap in the visuals folder says what the first one should cover.</p></div>
-      </div>
-      <section id="run">
-        <h2>Run it</h2>
-        <p>The repo README has the exact commands for this one. The
-        shape is the shape for most of my projects: clone it, read the
-        top file first so you know what will happen, then run it on
-        something you do not mind breaking.</p>
-        <p class="mono">$ git clone https://github.com/ShadowGuard-AI/codeintel-sensitive-data-pattern-finder.git<br>$ cd codeintel-sensitive-data-pattern-finder</p>
-      </section>
-      
-  <section aria-label="real code">
-    <h2>The code, as it sits in the repo</h2>
-    <p>From <code>main.py</code>, line 19 on. I did
-    not tidy it for the page. What you see is what the file has.</p>
-    <pre class="code"><code>
-
-def setup_argparse():
-    &quot;&quot;&quot;
-    Sets up the argument parser for the command-line interface.
-
-    Returns:
-        argparse.ArgumentParser: The configured argument parser.
-    &quot;&quot;&quot;
-    parser = argparse.ArgumentParser(
-        description=&quot;Scans codebase for patterns resembling sensitive data.&quot;
-    )
-    parser.add_argument(
-        &quot;path&quot;,
-        nargs=&quot;+&quot;,
-        help=&quot;Path to the file or directory to scan.  Multiple paths allowed.&quot;,
-    )
-    parser.add_argument(
-        &quot;-p&quot;,
-        &quot;--patterns&quot;,
-        help=&quot;Path to a file containing custom regex patterns (JSON format).&quot;,
-    )</code></pre>
-  </section>
-      <section id="files">
-        <h2>The files that matter</h2>
-        <table><tr><th>File</th><th>Lines</th></tr>
-        <tr><td><code>main.py</code></td><td>227</td></tr>
-        <tr><td><code>README.md</code></td><td>21</td></tr>
-        <tr><td><code>requirements.txt</code></td><td>3</td></tr>
-        <tr><td><code>banner.png</code></td><td>0</td></tr>
-        <tr><td><code>logo.png</code></td><td>0</td></tr>
-        </table>
-        <p>Names doing the work: <span class="mono">setup_argparse, load_custom_patterns, scan_file, scan_directory, main</span>.</p>
-      </section>
-      <section id="sheets">
-        <h2>Drawn by hand</h2>
-        <p>I sketch my projects on notebook paper so I have to
-        understand them well enough to draw them. The full set,
-        with the counts and how they were counted, is the
-        <a href="https://github.com/ShadowGuard-AI/codeintel-sensitive-data-pattern-finder/tree/main/codeintel-sensitive-data-pattern-finder-Visuals">codeintel-sensitive-data-pattern-finder-Visuals</a>
-        folder in the repo. Nothing is drawn over the binder holes.
-        That is a rule, not a style.</p>
-        <div class="shots">
-          <img src="assets/architecture.png" alt="Hand drawn architecture sheet for Codeintel Sensitive Data Pattern Finder">
-          <img src="assets/flowchart.png" alt="Hand drawn flowchart sheet for Codeintel Sensitive Data Pattern Finder">
-          <img src="assets/product-map.png" alt="Hand drawn product map sheet for Codeintel Sensitive Data Pattern Finder">
-        </div>
-      </section>
-    </div>
-  </section>
+<section class="panel" id="job">
+<h2>Patterns That Resemble Sensitive Data</h2>
+<p>The finder scans a codebase for patterns that resemble sensitive data.</p>
+<p>The README names three kinds. Credit card numbers. Social security numbers. API keys.</p>
+<p>The README states it in full: <q>Scans codebase for patterns resembling sensitive data (e.g., credit card numbers, social security numbers, API keys) using regular expressions and configurable pattern lists. Reports potential leaks and flags high-risk areas.</q></p>
+<p>The code holds five named patterns. Credit card. Social security. API key. AWS access key. Email.</p>
+<p>It uses regular expressions. It uses a pattern list that can be changed. It reports possible leaks. It flags high risk areas.</p>
+</section>
+<section class="panel" id="print">
+<h2>The Match Stands in Clear</h2>
+<p><strong>It prints the match itself. It does not mask.</strong></p>
+<p>The finder prints file, pattern name, and matched text. It prints them to console. It writes them to the log as a warning. It writes them to the output file, if one is named. The matched text stands in clear in all three places. No asterisks replace it. No length stands in its place.</p>
+<p>This page names pattern names only. It quotes no matched value. It quotes no example value. Values are not facts for this page. Names and positions are.</p>
+</section>
+<section class="panel" id="patterns">
+<h2>The Pattern List, as a Log Table</h2>
+<table>
+<tr><th>Pattern</th><th>Shape in words</th></tr>
+<tr><td>Credit card</td><td>A run of digits with spaces or dashes allowed between them. Length in the low teens.</td></tr>
+<tr><td>Social security</td><td>Three digits, two digits, four digits. Separator optional.</td></tr>
+<tr><td>API key</td><td>Letters, digits, underscore, and dash. Length from thirty two to forty five.</td></tr>
+<tr><td>AWS access key</td><td>Fixed prefix. Then sixteen capitals or digits.</td></tr>
+<tr><td>Email</td><td>Local part, at sign, domain, dot, suffix of two letters or more.</td></tr>
+</table>
+<p>Note under the table. Shapes match lookalikes. A shape is not a verdict. A person must judge each hit.</p>
+</section>
+<section class="panel" id="run">
+<h2>Run Form</h2>
+<div class="callout warn"><h3>README Usage Names No Path</h3>
+<p>README usage line, in full: <code>./codeintel-sensitive-data-pattern-finder [params]</code>. Flagged as a placeholder. It names no path. True form, beside the flag: the parser takes one or more paths. Each path is required. Each path may be a file or a directory. Multiple paths are allowed in one run.</p></div>
+<p>Install line, in full: <code>git clone https://github.com/ShadowGuardAI/codeintel-sensitive-data-pattern-finder</code></p>
+<p class="fault">Fault, flagged in place: the address uses ShadowGuardAI without a hyphen. It does not use ShadowGuard-AI. The README gives one clone line only. It gives no next step.</p>
+</section>
+<section class="panel" id="settings">
+<h2>Settings, in README Order</h2>
+<table>
+<tr><th>Setting</th><th>README entry</th><th>Code account</th></tr>
+<tr><td><code>-h</code></td><td>Show help message and exit</td><td>Described.</td></tr>
+<tr><td><code>-p</code></td><td>No description provided</td><td>It takes a path to a JSON file of custom patterns.</td></tr>
+<tr><td><code>-e</code></td><td>No description provided</td><td>It takes paths or names to exclude. Values are comma separated. A file is skipped if its path starts with or ends with an excluded value. A directory is skipped on a startswith test.</td></tr>
+<tr><td><code>-r</code></td><td>Scan directories recursively.</td><td>Described. Without the flag, only the top level of a directory is scanned. With the flag, the walk continues downward.</td></tr>
+<tr><td><code>-l</code></td><td>No description provided</td><td>It sets the log level. Choices are DEBUG, INFO, WARNING, ERROR, and CRITICAL. Default is INFO.</td></tr>
+<tr><td><code>-o</code></td><td>Path to an output file. The file is replaced at the start of each run, so it holds only that run's results, not matches from earlier runs.</td><td>Described. The file is replaced at the start of each run. It holds only that run. Matches then append during the scan.</td></tr>
+</table>
+<div class="callout"><h3>Three Settings Left Blank</h3>
+<p>The patterns flag, the exclude flag, and the log level flag each read No description provided in the README. The blanks are recorded as blanks, and the code accounts stand beside them.</p></div>
+</section>
+<section class="panel" id="exits">
+<h2>Custom Patterns Merge Over Defaults. A Missing Path Exits 1.</h2>
+<p>Merge rule. Custom patterns merge over the defaults. Same name replaces the default. New name sits beside the defaults. No setting drops a default pattern. A pattern file that cannot be found ends the run with exit 1. A pattern file with invalid JSON ends the run with exit 1. No silent fall back to defaults occurs.</p>
+<p>Exit rule, as the README prints it: A run exits 1 when a named path is missing, when any named file or any file in a scanned directory could not be read, or when any pattern fails to compile. Matches that were found are still reported before the run exits. Matches found before a failure are not withdrawn.</p>
+<p>Licence line, in full: Copyright (c) ShadowGuardAI</p>
+<p class="fault">Fault, flagged in place: the same fault as the clone line. No hyphen. No licence name is given. None is invented.</p>
+<p>Recorded as printed: the README title capitalises the slug as codeintel-Sensitive-Data-Pattern-Finder. The slug itself is all lower case.</p>
+</section>
 </main>
-<footer>
-  <p>Codeintel Sensitive Data Pattern Finder is one of my projects. This page was written
-  from the repo itself on 2026-10-30: the counts are the
-  repo's counts, the code is the repo's code, and the gaps are the
-  repo's gaps.</p>
-</footer>
+<footer><p>Close of log. Sky thins. Ring fades. Sock still hangs slack. The warning was the ring. The record stays.</p></footer>
 </body>
 </html>

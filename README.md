@@ -1,12 +1,12 @@
-![Snow field, hut corner, frost capped gauge row, fixed vane and rods, one thin halo ring and one bright sundog each side of a low sun, no lettering on any surface](intro-banner.png)
+![A wet print held up toward the safelight close up, its soft landscape image glowing red, the pegged print line behind](intro-banner.png)
 
 Forecast entry slip: the title below is set in Betania Patmos in indigo on a star white slip, ruled as a forecast entry with a date rule under the name. One small sundog plate sits under the banner only; headings after that stay typographic.
 
 # codeintel-Sensitive-Data-Pattern-Finder
 
-![One bright sundog patch left of centre on a faint halo arc, aurora green at the inner edge, one thin magenta edge at the outer rim, the name below in star white](logo.png)
+![One photographic print pegged to a line under deep red safelight, its image a soft pale landscape of dunes and trees](logo.png)
 
-![Icy morning full width: low sun outside the right edge, one sundog each side of it, a thin halo ring broken by cloud, snow field, weather station fence, slack wind sock, and the title once on the weather hut board](banner.png)
+![A darkroom worker pegging a fresh print to a line already strung with landscape prints under red safelight, trays and bottles on the bench below](banner.png)
 
 ![Halo sky in three bands: the ring brightens and fades once, the vane swings a small arc and settles, the sock lifts and sags, frost on the fence wire thickens at one slow interval](scene.svg)
 

@@ -3,106 +3,51 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>codeintel-sensitive-data-pattern-finder: a forecast log</title>
+<title>codeintel-sensitive-data-pattern-finder</title>
 <style>
-@font-face { font-family: 'Betania Patmos'; src: url('fonts/BetaniaPatmos.ttf') format('truetype'); }
-@font-face { font-family: 'Barlow'; src: url('fonts/Barlow.ttf') format('truetype'); }
-:root { --indigo:#1b2340; --pale:#e8ecf7; --white:#f4f7ff; --green:#7fe0b2; --magenta:#e04fa0; --ink:#141824; }
+@font-face { font-family: 'Zilla Slab Highlight'; src: url('fonts/ZillaSlabHighlight.ttf') format('truetype'); }
+@font-face { font-family: 'DM Serif Text'; src: url('fonts/DMSerifText.ttf') format('truetype'); }
+:root { --bg:#1d0f12; --panel:#efe3da; --ink:#241114; --accent:#a8232a; }
 * { box-sizing: border-box; }
-body { margin:0; background:var(--pale); color:var(--ink); font-family:'Barlow',sans-serif; line-height:1.5; }
-header { padding:2.4rem 6vw 0.6rem; background:var(--indigo); color:var(--white); }
-h1, h2 { font-family:'Betania Patmos',serif; }
-header h1 { color:var(--white); font-size:1.9rem; margin:0.4rem 0; }
-h2 { color:var(--indigo); border-top:3px solid var(--green); padding-top:0.5rem; }
-.hero { width:100%; border:2px solid var(--white); }
-.logo { width:150px; float:right; margin:0 0 1rem 1rem; }
+body { margin:0; background:var(--bg); color:var(--ink); font-family:'DM Serif Text',sans-serif; line-height:1.55; }
+header { padding:2rem 6vw 0.5rem; }
+h1, h2 { font-family:'Zilla Slab Highlight',serif; color:var(--panel); }
+h1 { font-size:2rem; margin:0.5rem 0; overflow-wrap:anywhere; }
+.tag { color:var(--panel); opacity:0.9; max-width:60ch; }
+.hero { width:100%; border:3px solid var(--accent); }
+.logo { width:170px; float:right; margin:0 0 1rem 1rem; border:2px solid var(--accent); background:var(--panel); }
 main { padding:0 6vw 2rem; }
-.panel { background:var(--white); border:1px solid var(--indigo); padding:1.1rem 1.3rem; margin:1.2rem 0; }
-.callout { background:#dde4f5; border-left:6px solid var(--indigo); padding:0.7rem 1rem; margin:0.9rem 0; }
-.callout.warn { border-left-color:var(--magenta); }
-.callout h3 { font-family:'Betania Patmos',serif; color:var(--indigo); margin:0 0 0.3rem; font-size:1rem; }
-.fault { color:var(--magenta); font-weight:600; }
-code { background:#d5dcf0; padding:0.05rem 0.3rem; }
-.plate { display:inline-block; background:#cfd9ef; border:1px solid var(--indigo); border-radius:0 0 60px 60px / 0 0 22px 22px; color:var(--indigo); font-family:'Betania Patmos',serif; padding:0.5rem 1.1rem; margin:0.3rem 0.4rem 0.3rem 0; text-decoration:none; }
-.plate:hover { background:var(--white); }
-a { color:var(--indigo); }
-table { border-collapse:collapse; width:100%; }
-td, th { border:1px solid var(--indigo); padding:0.4rem 0.6rem; text-align:left; }
-footer { padding:0 6vw 2.4rem; color:var(--indigo); }
+.bay { background:var(--panel); border:2px solid var(--accent); padding:1.1rem 1.3rem; margin:1.2rem 0; }
+.bay img.wide { width:100%; }
+.fault { border-left:6px solid var(--accent); padding-left:0.8rem; }
+code { background:rgba(0,0,0,0.08); padding:0.05rem 0.3rem; }
+footer { padding:0 6vw 2.4rem; color:var(--panel); }
+footer a { color:var(--panel); }
 </style>
 </head>
 <body>
 <header>
-<img class="hero" src="assets/intro-banner.png" alt="Snow field, weather hut, fixed rods, a thin halo ring and two bright sundogs, no lettering">
-<img class="logo" src="assets/logo.png" alt="One bright sundog patch on a faint halo arc against polar night indigo, the name below in star white">
-<p>Forecast log. First entry.</p>
+<img class="hero" src="assets/intro-banner.png" alt="A wet print held up toward the safelight close up, its soft landscape image glowing red, the pegged print line behind">
 <h1>codeintel-sensitive-data-pattern-finder</h1>
-<p>Light at the margin of the code. A bright pattern early, and judgement left to a person.</p>
-<nav>
-<a class="plate" href="#run">Scan These Paths</a>
-<a class="plate" href="#settings">Load a Pattern File</a>
-<a class="plate" href="#settings">List Exclusions</a>
-<a class="plate" href="#settings">Write to File</a>
-</nav>
-<img class="hero" src="assets/banner.png" alt="Icy morning: halo ring between two sundogs, snow field, weather station fence, and the title once on the weather hut board">
+<p class="tag">Darkroom print line photography: every sheet held up to the light, nothing it finds stays hidden.</p>
 </header>
 <main>
-<section class="panel" id="job">
-<h2>Patterns That Resemble Sensitive Data</h2>
-<p>The finder scans a codebase for patterns that resemble sensitive data.</p>
-<p>The README names three kinds. Credit card numbers. Social security numbers. API keys.</p>
-<p>The README states it in full: <q>Scans codebase for patterns resembling sensitive data (e.g., credit card numbers, social security numbers, API keys) using regular expressions and configurable pattern lists. Reports potential leaks and flags high-risk areas.</q></p>
-<p>The code holds five named patterns. Credit card. Social security. API key. AWS access key. Email.</p>
-<p>It uses regular expressions. It uses a pattern list that can be changed. It reports possible leaks. It flags high risk areas.</p>
+<section class="bay">
+<img class="logo" src="assets/logo.png" alt="One photographic print pegged to a line under deep red safelight, its image a soft pale landscape of dunes and trees">
+
+<p>This tool scans files for five sensitive data shapes and prints every match in clear. Run it as <code>python3 main.py PATH</code> with one or more required positional paths, each a file or a directory. Options: <code>-p</code> naming a JSON file of custom patterns, <code>-e</code> taking comma separated exclusions, <code>-r</code> for recursion, <code>-l</code> setting the log level, and <code>-o</code> writing results to a file.</p>
+<p>The five default shapes are a credit card run of thirteen to sixteen digits with spaces or dashes allowed (no validity check of any kind, so any long digit run qualifies), a social security shape of three, two and four digits, a loose API key run of 32 to 45 word characters, the AWS access key shape, and an email address shape.</p>
+<p>The match itself is the report: it is printed to the console, written to the warning log, and appended to the output file, unmasked in all three places. That is the deliberate opposite of the masking its sibling scanner, codeintel-secrets-scanner, performs, which replaces reported values with ***. Custom patterns merge over the defaults, a same named one replacing its default and a new named one added beside them, and there is no way to drop a default pattern; a patterns file that cannot be loaded exits 1 rather than falling back silently. Exclusions test whether a path starts with or ends with an excluded string. The output file is truncated once at the start of a run. A run exits 1 when a named path is missing, when any file could not be read, or when any pattern fails to compile, and matches already found are still reported before it exits.</p>
+<p class="fault">Recorded traps, preserved in the README: the clone URL and the closing licence line both use the unhyphenated ShadowGuardAI against the MIT LICENSE file; the usage line is a placeholder naming no path; and the parameter list omits the required positional paths and leaves -p, -e and -l undescribed though the code's help text describes all three.</p>
+
 </section>
-<section class="panel" id="print">
-<h2>The Match Stands in Clear</h2>
-<p><strong>It prints the match itself. It does not mask.</strong></p>
-<p>The finder prints file, pattern name, and matched text. It prints them to console. It writes them to the log as a warning. It writes them to the output file, if one is named. The matched text stands in clear in all three places. No asterisks replace it. No length stands in its place.</p>
-<p>This page names pattern names only. It quotes no matched value. It quotes no example value. Values are not facts for this page. Names and positions are.</p>
+<section class="bay">
+<img class="wide" src="assets/banner.png" alt="A darkroom worker pegging a fresh print to a line already strung with landscape prints under red safelight, trays and bottles on the bench below">
 </section>
-<section class="panel" id="patterns">
-<h2>The Pattern List, as a Log Table</h2>
-<table>
-<tr><th>Pattern</th><th>Shape in words</th></tr>
-<tr><td>Credit card</td><td>A run of digits with spaces or dashes allowed between them. Length in the low teens.</td></tr>
-<tr><td>Social security</td><td>Three digits, two digits, four digits. Separator optional.</td></tr>
-<tr><td>API key</td><td>Letters, digits, underscore, and dash. Length from thirty two to forty five.</td></tr>
-<tr><td>AWS access key</td><td>Fixed prefix. Then sixteen capitals or digits.</td></tr>
-<tr><td>Email</td><td>Local part, at sign, domain, dot, suffix of two letters or more.</td></tr>
-</table>
-<p>Note under the table. Shapes match lookalikes. A shape is not a verdict. A person must judge each hit.</p>
-</section>
-<section class="panel" id="run">
-<h2>Run Form</h2>
-<div class="callout warn"><h3>README Usage Names No Path</h3>
-<p>README usage line, in full: <code>./codeintel-sensitive-data-pattern-finder [params]</code>. Flagged as a placeholder. It names no path. True form, beside the flag: the parser takes one or more paths. Each path is required. Each path may be a file or a directory. Multiple paths are allowed in one run.</p></div>
-<p>Install line, in full: <code>git clone https://github.com/ShadowGuardAI/codeintel-sensitive-data-pattern-finder</code></p>
-<p class="fault">Fault, flagged in place: the address uses ShadowGuardAI without a hyphen. It does not use ShadowGuard-AI. The README gives one clone line only. It gives no next step.</p>
-</section>
-<section class="panel" id="settings">
-<h2>Settings, in README Order</h2>
-<table>
-<tr><th>Setting</th><th>README entry</th><th>Code account</th></tr>
-<tr><td><code>-h</code></td><td>Show help message and exit</td><td>Described.</td></tr>
-<tr><td><code>-p</code></td><td>No description provided</td><td>It takes a path to a JSON file of custom patterns.</td></tr>
-<tr><td><code>-e</code></td><td>No description provided</td><td>It takes paths or names to exclude. Values are comma separated. A file is skipped if its path starts with or ends with an excluded value. A directory is skipped on a startswith test.</td></tr>
-<tr><td><code>-r</code></td><td>Scan directories recursively.</td><td>Described. Without the flag, only the top level of a directory is scanned. With the flag, the walk continues downward.</td></tr>
-<tr><td><code>-l</code></td><td>No description provided</td><td>It sets the log level. Choices are DEBUG, INFO, WARNING, ERROR, and CRITICAL. Default is INFO.</td></tr>
-<tr><td><code>-o</code></td><td>Path to an output file. The file is replaced at the start of each run, so it holds only that run's results, not matches from earlier runs.</td><td>Described. The file is replaced at the start of each run. It holds only that run. Matches then append during the scan.</td></tr>
-</table>
-<div class="callout"><h3>Three Settings Left Blank</h3>
-<p>The patterns flag, the exclude flag, and the log level flag each read No description provided in the README. The blanks are recorded as blanks, and the code accounts stand beside them.</p></div>
-</section>
-<section class="panel" id="exits">
-<h2>Custom Patterns Merge Over Defaults. A Missing Path Exits 1.</h2>
-<p>Merge rule. Custom patterns merge over the defaults. Same name replaces the default. New name sits beside the defaults. No setting drops a default pattern. A pattern file that cannot be found ends the run with exit 1. A pattern file with invalid JSON ends the run with exit 1. No silent fall back to defaults occurs.</p>
-<p>Exit rule, as the README prints it: A run exits 1 when a named path is missing, when any named file or any file in a scanned directory could not be read, or when any pattern fails to compile. Matches that were found are still reported before the run exits. Matches found before a failure are not withdrawn.</p>
-<p>Licence line, in full: Copyright (c) ShadowGuardAI</p>
-<p class="fault">Fault, flagged in place: the same fault as the clone line. No hyphen. No licence name is given. None is invented.</p>
-<p>Recorded as printed: the README title capitalises the slug as codeintel-Sensitive-Data-Pattern-Finder. The slug itself is all lower case.</p>
-</section>
+<section class="bay"><h2 style="color:var(--ink)">Diagrams</h2><img class="wide" src="assets/architecture.png" alt="Architecture diagram"><img class="wide" src="assets/flowchart.png" alt="Flowchart diagram"><img class="wide" src="assets/product-map.png" alt="Product map diagram"></section>
 </main>
-<footer><p>Close of log. Sky thins. Ring fades. Sock still hangs slack. The warning was the ring. The record stays.</p></footer>
+<footer>
+<p>ShadowGuard-AI. Source and full documentation in the repository README. Fonts: Zilla Slab Highlight and DM Serif Text, self-hosted under their licences in the fonts folder.</p>
+</footer>
 </body>
 </html>
